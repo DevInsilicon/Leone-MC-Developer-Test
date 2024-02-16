@@ -1,10 +1,7 @@
 package dev.insilicon.leonemctest.Commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Conditions;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.Flags;
+import co.aikar.commands.annotation.*;
 import dev.insilicon.leonemctest.Leonemctest;
 import dev.insilicon.leonemctest.PlayerDataClass;
 import org.bukkit.entity.Player;
@@ -13,6 +10,7 @@ public class adminpay extends BaseCommand {
 
     @CommandAlias("adminpay")
     @Description("Admin Pay Command")
+    @CommandPermission("leonemctest.adminpay")
     public void onAdminPayCommand(Player plr, @Flags("other") Player targetPlayer, @Conditions("limits:min=0.1,max=10000") double amount) {
 
         //Get Player Class from target name
