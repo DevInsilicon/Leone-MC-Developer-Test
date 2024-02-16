@@ -4,19 +4,47 @@ import co.aikar.commands.PaperCommandManager;
 import dev.insilicon.leonemctest.Commands.*;
 import dev.insilicon.leonemctest.events.connectionHandler;
 import dev.insilicon.leonemctest.events.killsystem;
+import dev.insilicon.leonemctest.papi.deaths_papi;
+import dev.insilicon.leonemctest.papi.kills_papi;
+import dev.insilicon.leonemctest.papi.money_papi;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public final class Leonemctest extends JavaPlugin {
+public final class Leonemctest extends JavaPlugin implements @NotNull Listener {
     private PaperCommandManager commandManager;
     private CustomDB db;
 
     @Override
     public void onEnable() {
+
+        //DEPO
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            /*
+             * We register the EventListener here, when PlaceholderAPI is installed.
+             * Since all events are in the main class (this class), we simply use "this"
+             */
+            Bukkit.getPluginManager().registerEvents(this, this);
+        } else {
+            /*
+             * We inform about the fact that PlaceholderAPI isn't installed and then
+             * disable this plugin to prevent issues.
+             */
+            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
+            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
+            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        //DEPO
         // Plugin startup logic
         db = new CustomDB(this);
 
@@ -41,6 +69,18 @@ public final class Leonemctest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new connectionHandler(), this);
         getServer().getPluginManager().registerEvents(new killsystem(), this);
 
+        //PAPI
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
+            new kills_papi().register();
+            new deaths_papi().register();
+            new money_papi().register();
+        }
+
+    }
+
+    @Override
+    public @NotNull ComponentLogger getComponentLogger() {
+        return super.getComponentLogger();
     }
 
     public PaperCommandManager getCommandManager() {
