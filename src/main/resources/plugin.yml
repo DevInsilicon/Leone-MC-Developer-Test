@@ -19,3 +19,7 @@ commands:
     description: Pay a player
     usage: /<command> <player> <amount>
     permission: leonemctest.pay
+  killeffecttest:
+    description: Test the kill effect
+    usage: /<command>
+    permission: leonemctest.killeffecttest

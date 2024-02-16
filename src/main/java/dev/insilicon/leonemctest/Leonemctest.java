@@ -1,10 +1,7 @@
 package dev.insilicon.leonemctest;
 
 import co.aikar.commands.PaperCommandManager;
-import dev.insilicon.leonemctest.Commands.adminpay;
-import dev.insilicon.leonemctest.Commands.bal;
-import dev.insilicon.leonemctest.Commands.pay;
-import dev.insilicon.leonemctest.Commands.stats;
+import dev.insilicon.leonemctest.Commands.*;
 import dev.insilicon.leonemctest.events.connectionHandler;
 import dev.insilicon.leonemctest.events.killsystem;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +34,7 @@ public final class Leonemctest extends JavaPlugin {
         getCommandManager().registerCommand(new bal());
         getCommandManager().registerCommand(new adminpay());
         getCommandManager().registerCommand(new pay());
+        getCommandManager().registerCommand(new kill_effect_test());
 
 
         //Events
