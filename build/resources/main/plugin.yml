@@ -23,3 +23,7 @@ commands:
     description: Test the kill effect
     usage: /<command>
     permission: leonemctest.killeffecttest
+  givecustomitem:
+    description: Give a custom item
+    usage: /<command> <player> <item>
+    permission: leonemctest.custom_item_give

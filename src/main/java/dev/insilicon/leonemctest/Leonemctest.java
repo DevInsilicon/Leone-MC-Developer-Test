@@ -2,7 +2,9 @@ package dev.insilicon.leonemctest;
 
 import co.aikar.commands.PaperCommandManager;
 import dev.insilicon.leonemctest.Commands.*;
+import dev.insilicon.leonemctest.customitems.pdt_keys;
 import dev.insilicon.leonemctest.events.connectionHandler;
+import dev.insilicon.leonemctest.events.general_manager;
 import dev.insilicon.leonemctest.events.killsystem;
 import dev.insilicon.leonemctest.papi.deaths_papi;
 import dev.insilicon.leonemctest.papi.kills_papi;
@@ -21,6 +23,16 @@ import java.io.OutputStream;
 public final class Leonemctest extends JavaPlugin implements @NotNull Listener {
     private PaperCommandManager commandManager;
     private CustomDB db;
+    private pdt_keys keys;
+    private general_manager gm;
+
+    public general_manager getGm() {
+        return gm;
+    }
+
+    public void setGm(general_manager gm) {
+        this.gm = gm;
+    }
 
     @Override
     public void onEnable() {
@@ -44,6 +56,9 @@ public final class Leonemctest extends JavaPlugin implements @NotNull Listener {
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
+        //PDT
+        this.keys = new pdt_keys(this);
+
         //DEPO
         // Plugin startup logic
         db = new CustomDB(this);
@@ -63,11 +78,16 @@ public final class Leonemctest extends JavaPlugin implements @NotNull Listener {
         getCommandManager().registerCommand(new adminpay());
         getCommandManager().registerCommand(new pay());
         getCommandManager().registerCommand(new kill_effect_test());
-
+        getCommandManager().registerCommand(new give_custom_item());
 
         //Events
         getServer().getPluginManager().registerEvents(new connectionHandler(), this);
         getServer().getPluginManager().registerEvents(new killsystem(), this);
+        this.gm = new general_manager(this);
+        getServer().getPluginManager().registerEvents(gm, this);
+
+
+
 
         //PAPI
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
@@ -76,11 +96,17 @@ public final class Leonemctest extends JavaPlugin implements @NotNull Listener {
             new money_papi().register();
         }
 
+
+
     }
 
     @Override
     public @NotNull ComponentLogger getComponentLogger() {
         return super.getComponentLogger();
+    }
+
+    public pdt_keys getKeys() {
+        return keys;
     }
 
     public PaperCommandManager getCommandManager() {
